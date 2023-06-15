@@ -15,13 +15,14 @@ public class SnakeGame extends Game {
 
     private void createGame() {
         snake = new Snake(WIDTH/2,HEIGHT/2);
+
         drawScene();
     }
 
     private void drawScene() {
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
-                setCellColor(x, y, Color.DARKGREEN);
+                setCellColor(x, y, Color.FORESTGREEN);
             }
         }
         snake.draw(this);
