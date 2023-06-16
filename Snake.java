@@ -35,25 +35,34 @@ public class Snake {
             }
         }
     }
-    public void move(){
 
+    public void move() {
+        GameObject createNewHead = createNewHead();
+        if (createNewHead.x < 0 || createNewHead.x >= SnakeGame.WIDTH || createNewHead.y < 0 || createNewHead.y >= SnakeGame.HEIGHT) {
+            isAlive = false;
+            return;
+        }
+            snakeParts.add(0, createNewHead);
+            removeTail();
     }
+
     public GameObject createNewHead() {
         GameObject head = snakeParts.get(0);
-            if (direction == Direction.LEFT) {
-                return new GameObject(head.x - 1, head.y);
+        if (direction == Direction.LEFT) {
+            return new GameObject(head.x - 1, head.y);
 
-            }else if (direction == Direction.RIGHT) {
-                return new GameObject(head.x + 1, head.y);
-            }else if (direction == Direction.DOWN) {
-                return new GameObject(head.x, head.y + 1);
-            }else if (direction == Direction.UP) {
-                return new GameObject(head.x, head.y - 1);
-            }else {
-                return new GameObject(head.x,head.y);
-            }
+        } else if (direction == Direction.RIGHT) {
+            return new GameObject(head.x + 1, head.y);
+        } else if (direction == Direction.DOWN) {
+            return new GameObject(head.x, head.y + 1);
+        } else if (direction == Direction.UP) {
+            return new GameObject(head.x, head.y - 1);
+        } else {
+            return new GameObject(head.x, head.y);
+        }
     }
-    public void removeTail(){
-        snakeParts.remove(snakeParts.size()-1);
+
+    public void removeTail() {
+        snakeParts.remove(snakeParts.size() - 1);
     }
 }
