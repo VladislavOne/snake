@@ -9,6 +9,7 @@ public class SnakeGame extends Game {
     private Snake snake;
     private int turnDelay;
     private Apple apple;
+    private boolean isGameStopped;
 
     @Override
     public void initialize() {
@@ -19,6 +20,7 @@ public class SnakeGame extends Game {
     private void createGame() {
         snake = new Snake(WIDTH / 2, HEIGHT / 2);
         createNewApple();
+        isGameStopped = false;
         drawScene();
         turnDelay = 300;
         setTurnTimer(turnDelay);
@@ -37,8 +39,11 @@ public class SnakeGame extends Game {
     @Override
     public void onTurn(int step) {
         snake.move(apple);
-        if (!apple.isAlive){
+        if (!apple.isAlive) {
             createNewApple();
+        }
+        if (!snake.isAlive) {
+            gameOver();
         }
         drawScene();
 
@@ -46,9 +51,9 @@ public class SnakeGame extends Game {
 
     @Override
     public void onKeyPress(Key key) {
-        if(key == Key.LEFT){
+        if (key == Key.LEFT) {
             snake.setDirection(Direction.LEFT);
-        } else if (key == Key.DOWN){
+        } else if (key == Key.DOWN) {
             snake.setDirection(Direction.DOWN);
         } else if (key == Key.RIGHT) {
             snake.setDirection(Direction.RIGHT);
@@ -56,10 +61,18 @@ public class SnakeGame extends Game {
             snake.setDirection(Direction.UP);
         }
     }
-    private void createNewApple(){
-       int width = getRandomNumber(WIDTH);
+
+    private void createNewApple() {
+        int width = getRandomNumber(WIDTH);
         int height = getRandomNumber(HEIGHT);
-        Apple newApple = new Apple(width,height);
+        Apple newApple = new Apple(width, height);
         apple = newApple;
+    }
+
+    private void gameOver() {
+        isGameStopped = true;
+        stopTurnTimer();
+        showMessageDialog(Color.NONE, "YOU LOSE", Color.RED, 75);
+
     }
 }
