@@ -41,11 +41,11 @@ public class SnakeGame extends Game {
 
     private void createNewApple() {
         do {
-            int width = getRandomNumber(WIDTH);
-            int height = getRandomNumber(HEIGHT);
-            Apple newApple = new Apple(width, height);
-            apple = newApple;
-        } while (snake.checkCollision(apple));
+           int width = getRandomNumber(WIDTH);
+           int height = getRandomNumber(HEIGHT);
+           Apple newApple = new Apple(width, height);
+           apple = newApple;
+       } while (snake.checkCollision(apple));
     }
 
     @Override
