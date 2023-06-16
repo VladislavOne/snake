@@ -6,9 +6,11 @@ public class SnakeGame extends Game {
 
     public static final int WIDTH = 15;
     public static final int HEIGHT = 15;
+
     private Snake snake;
-    private int turnDelay;
     private Apple apple;
+
+    private int turnDelay;
     private boolean isGameStopped;
     private static final int GOAL = 28;
 
@@ -19,22 +21,31 @@ public class SnakeGame extends Game {
     }
 
     private void createGame() {
+        turnDelay = 300;
+        setTurnTimer(turnDelay);
         snake = new Snake(WIDTH / 2, HEIGHT / 2);
         createNewApple();
         isGameStopped = false;
         drawScene();
-        turnDelay = 300;
-        setTurnTimer(turnDelay);
     }
 
     private void drawScene() {
-        for (int x = 0; x < WIDTH; x++) {
-            for (int y = 0; y < HEIGHT; y++) {
-                setCellValueEx(x, y, Color.FORESTGREEN, "");
+        for (int i = 0; i < WIDTH; i++) {
+            for (int j = 0; j < HEIGHT; j++) {
+                setCellValueEx(i, j, Color.DARKSEAGREEN, "");
             }
         }
         snake.draw(this);
         apple.draw(this);
+    }
+
+    private void createNewApple() {
+        do {
+            int width = getRandomNumber(WIDTH);
+            int height = getRandomNumber(HEIGHT);
+            Apple newApple = new Apple(width, height);
+            apple = newApple;
+        } while (snake.checkCollision(apple));
     }
 
     @Override
@@ -50,39 +61,34 @@ public class SnakeGame extends Game {
             win();
         }
         drawScene();
-
     }
 
     @Override
     public void onKeyPress(Key key) {
+        if (key == Key.SPACE && isGameStopped) {
+            createGame();
+        }
+
         if (key == Key.LEFT) {
             snake.setDirection(Direction.LEFT);
-        } else if (key == Key.DOWN) {
-            snake.setDirection(Direction.DOWN);
         } else if (key == Key.RIGHT) {
             snake.setDirection(Direction.RIGHT);
         } else if (key == Key.UP) {
             snake.setDirection(Direction.UP);
+        } else if (key == Key.DOWN) {
+            snake.setDirection(Direction.DOWN);
         }
     }
 
-    private void createNewApple() {
-        int width = getRandomNumber(WIDTH);
-        int height = getRandomNumber(HEIGHT);
-        Apple newApple = new Apple(width, height);
-        apple = newApple;
-    }
-
     private void gameOver() {
-        isGameStopped = true;
         stopTurnTimer();
-        showMessageDialog(Color.NONE, "YOU LOSE", Color.RED, 75);
-
+        isGameStopped = true;
+        showMessageDialog(Color.NONE, "Game over!", Color.RED, 50);
     }
 
     private void win() {
         stopTurnTimer();
         isGameStopped = true;
-        showMessageDialog(Color.NONE, "YOU WIN", Color.RED, 75);
+        showMessageDialog(Color.NONE, "You win!", Color.GREEN, 50);
     }
 }
