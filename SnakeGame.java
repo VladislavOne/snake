@@ -36,4 +36,17 @@ public class SnakeGame extends Game {
         drawScene();
 
     }
+
+    @Override
+    public void onKeyPress(Key key) {
+        if(key == Key.LEFT){
+            snake.setDirection(Direction.LEFT);
+        } else if (key == Key.DOWN){
+            snake.setDirection(Direction.DOWN);
+        } else if (key == Key.RIGHT) {
+            snake.setDirection(Direction.RIGHT);
+        } else if (key == Key.UP) {
+            snake.setDirection(Direction.UP);
+        }
+    }
 }
